@@ -1,32 +1,89 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import Lenis from 'lenis'
-import gsap from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
-gsap.registerPlugin(ScrollTrigger)
+import { useEffect } from 'react';
+import './App.css';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+import { images } from './images';
 
 function App() {
-  useEffect(() => {
-    const lenis = new Lenis({
-      lerp: 0.1,
-      smoothWheel: true
-    });
-    lenis.on('scroll', (e) => {
-      console.log(e);
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000); 
-    });
-    gsap.ticker.lagSmoothing(0);
+  const firstArray = [...images.slice(0, 9)];
+  const secondArray = [...images.slice(9, 18)];
+  const thirdArray = [...images.slice(18, 27)];
 
-  },[])
+  useEffect(() => {
+    // Keep track of previous scroll position to detect scroll direction
+    let scrollDirection = 0;
+
+    // Set up ScrollTrigger for each column
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: ".scroller__wrapper_cover",
+      start: "top top",
+      end: "bottom bottom",
+      // markers: true, 
+      scrub: true,
+      pin: true,
+  
+      onUpdate: (self) => {
+        const currentScroll = self.scroll();
+        if (currentScroll > scrollDirection) {
+          // Scrolling down
+          gsap.to(".first_scroller_wrapper", { y: "+=2%", ease: "none" });
+          gsap.to(".second_scroller_wrapper", { y: "-=1%", ease: "none" });
+          gsap.to(".third_scroller_wrapper", { y: "+=2%", ease: "none" });
+        } else if (currentScroll < scrollDirection) {
+          // Scrolling up
+          gsap.to(".first_scroller_wrapper", { y: "-=2%", ease: "none" });
+          gsap.to(".second_scroller_wrapper", { y: "+=1%", ease: "none" });
+          gsap.to(".third_scroller_wrapper", { y: "-=2%", ease: "none" });
+        }
+
+        // Update scroll direction
+        scrollDirection = currentScroll;
+      },
+    });
+
+    return () => {
+      // Clean up the ScrollTrigger
+      scrollTrigger.kill();
+    };
+  }, []);
 
   return (
-    <>
+    <section className="wrapper">
+        <div className="scroller__wrapper_cover ">
+       
+        <div className="first_scroller_wrapper" >
+          {firstArray.map((img, idx) => (
+            <div className="img__holder" key={idx}>
+              <img src={img} alt={`image${idx + 1}`} />
+            </div>
+          ))}
+          </div>
       
-    </>
-  )
+
+        
+          <div className="second_scroller_wrapper">
+          {secondArray.map((img, idx) => (
+            <div className="img__holder" key={idx}>
+              <img src={img} alt={`image${idx + 1}`} />
+            </div>
+          ))}
+          </div>
+       
+
+    
+        <div className="third_scroller_wrapper">
+          {thirdArray.map((img, idx) => (
+            <div className="img__holder" key={idx}>
+              <img src={img} alt={`image${idx + 1}`} />
+            </div>
+          ))}
+        
+        </div>
+      </div>
+    </section>
+  );
 }
 
-export default App
+export default App;

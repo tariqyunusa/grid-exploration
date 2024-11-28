@@ -1,0 +1,53 @@
+.wrapper{
+    width: 100vw;
+    /* height: 100vh; */
+   
+}
+.scroller__wrapper_cover{
+    width: 100%;
+    height: 600vh;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    /* align-items: center; */
+    /* overflow: hidden; */
+}
+.scroll{
+    position: relative;
+}
+.first_scroller_wrapper{
+    display: flex;
+    flex-direction: column;
+    /* max-width: 30%; */
+    gap: 2rem;
+    position: relative;
+    top: -80rem;
+    /* height: 500vh; */
+    
+}
+.second_scroller_wrapper{
+    position: relative;
+    top:-50rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+   
+}
+.third_scroller_wrapper{
+    position: relative;
+    top: -80rem;
+    gap: 2rem;
+    flex-direction: column;
+    display: flex;
+    
+}
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.img__holder{
+    aspect-ratio: 3/4;
+    width: 20rem;
+}
