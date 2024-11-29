@@ -20,7 +20,7 @@ function App() {
       trigger: ".scroller__wrapper_cover",
       start: "top top",
       end: "bottom bottom",
-      // markers: true, 
+      markers: true, 
       scrub: true,
       pin: true,
   
@@ -28,14 +28,14 @@ function App() {
         const currentScroll = self.scroll();
         if (currentScroll > scrollDirection) {
           // Scrolling down
-          gsap.to(".first_scroller_wrapper", { y: "+=2%", ease: "none" });
-          gsap.to(".second_scroller_wrapper", { y: "-=1%", ease: "none" });
-          gsap.to(".third_scroller_wrapper", { y: "+=2%", ease: "none" });
+          gsap.to(".first_scroller_wrapper", { y: `${150 * self.progress }vh`, ease: "none" });
+          gsap.to(".second_scroller_wrapper", { y: `${-150 * self.progress}vh`, ease: "none" });
+          gsap.to(".third_scroller_wrapper", { y: `${150 * self.progress}vh`, ease: "none" });
         } else if (currentScroll < scrollDirection) {
           // Scrolling up
-          gsap.to(".first_scroller_wrapper", { y: "-=2%", ease: "none" });
-          gsap.to(".second_scroller_wrapper", { y: "+=1%", ease: "none" });
-          gsap.to(".third_scroller_wrapper", { y: "-=2%", ease: "none" });
+          gsap.to(".first_scroller_wrapper", { y: `${-150 * self.progress }vh`, ease: "none" });
+          gsap.to(".second_scroller_wrapper", { y:`${150 * self.progress }vh`, ease: "none" });
+          gsap.to(".third_scroller_wrapper", { y: `${-150 * self.progress }vh`, ease: "none" });
         }
 
         // Update scroll direction
@@ -51,6 +51,9 @@ function App() {
 
   return (
     <section className="wrapper">
+      <section className="redundant__cover">
+        
+        </section>
         <div className="scroller__wrapper_cover ">
        
         <div className="first_scroller_wrapper" >
@@ -82,6 +85,9 @@ function App() {
         
         </div>
       </div>
+      <section className="redundant__cover">
+
+      </section>
     </section>
   );
 }
