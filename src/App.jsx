@@ -3,7 +3,7 @@ import './App.css';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
-
+import Lenis from 'lenis'
 import { images } from './images';
 
 function App() {
@@ -12,10 +12,20 @@ function App() {
   const thirdArray = [...images.slice(18, 27)];
 
   useEffect(() => {
-    // Keep track of previous scroll position to detect scroll direction
     let scrollDirection = 0;
+    
+    const lenis = new Lenis({lerp: 0.1, smoothWheel: true});
+    lenis.on('scroll', (e) => {
+      console.log(e);
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);             
+    });
+    gsap.ticker.lagSmoothing(0);
 
-    // Set up ScrollTrigger for each column
+
+    
     const scrollTrigger = ScrollTrigger.create({
       trigger: ".scroller__wrapper_cover",
       start: "top top",
@@ -38,13 +48,12 @@ function App() {
           gsap.to(".third_scroller_wrapper", { y: `${-150 * self.progress }vh`, ease: "none" });
         }
 
-        // Update scroll direction
+     
         scrollDirection = currentScroll;
       },
     });
 
     return () => {
-      // Clean up the ScrollTrigger
       scrollTrigger.kill();
     };
   }, []);
